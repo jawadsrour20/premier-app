@@ -14,13 +14,13 @@ import copy
 import os
 import platform
 from tabulate import tabulate
-import win32api
-import win32print
-import os
-import time
-import shutil
-import pandas as pd
-import win32com.client as win32
+# import win32api
+# import win32print
+# import os
+# import time
+# import shutil
+# import pandas as pd
+# import win32com.client as win32
 keyboard = Controller()
 
 row_num = 1
@@ -1526,7 +1526,8 @@ class Ui_transaction_report(QMainWindow):
                 self.pagamentos_solidicon.text()[:len(self.pagamentos_solidicon.text()) - 2])
             valor_liquido = float(self.flot_field.value()) \
                             + str_to_float(self.flot_inicial.text()[:len(self.flot_inicial.text()) - 2]) \
-                            + total_vendas - total_pagamentos
+                            + total_vendas - total_pagamentos - float(self.flot_devolvido.value())
+
             balanco_final = float(valor_liquido) + float(self.tpa_field.value())
 
             temp_date = self.date_field.dateTime().toPyDateTime()
