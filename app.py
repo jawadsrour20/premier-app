@@ -6,7 +6,6 @@ from PyQt5.QtGui import QPixmap, QScreen, QFont
 from PyQt5.QtWidgets import QMessageBox, QWidget, QApplication, QMainWindow, QLineEdit
 import sys
 from random import randint
-# import printtt
 from datetime import date, datetime, time
 from pynput.keyboard import Key, Controller
 from read_write import *
@@ -22,12 +21,13 @@ import time
 keyboard = Controller()
 
 row_num = 1
+receipt_window = None
 
 # portuguese is default
 set_language = "PO"
 
-def str_to_float(value):
 
+def str_to_float(value):
     if ',' in str(value):
         value_arr = value.split(",")
         result = ""
@@ -54,7 +54,7 @@ class Ui_MainWindow(object):
         self.hora.setGeometry(QtCore.QRect(240, 150, 301, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.hora.setFont(font)
         self.hora.setAutoFillBackground(False)
         self.hora.setStyleSheet("background-color:none;")
@@ -64,7 +64,7 @@ class Ui_MainWindow(object):
         self.flot_recebido_label.setGeometry(QtCore.QRect(40, 240, 201, 51))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.flot_recebido_label.setFont(font)
         self.flot_recebido_label.setStyleSheet("background-color:none;")
         self.flot_recebido_label.setAlignment(QtCore.Qt.AlignCenter)
@@ -73,7 +73,7 @@ class Ui_MainWindow(object):
         self.nome_do_label.setGeometry(QtCore.QRect(50, 70, 191, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.nome_do_label.setFont(font)
         self.nome_do_label.setStyleSheet("background-color:none;")
         self.nome_do_label.setAlignment(QtCore.Qt.AlignCenter)
@@ -88,7 +88,7 @@ class Ui_MainWindow(object):
         self.nome_do_gerente.setGeometry(QtCore.QRect(240, 60, 301, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.nome_do_gerente.setFont(font)
         self.nome_do_gerente.setAutoFillBackground(False)
         self.nome_do_gerente.setStyleSheet("background-color:none;")
@@ -98,7 +98,7 @@ class Ui_MainWindow(object):
         self.tpa_label.setGeometry(QtCore.QRect(40, 310, 201, 41))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.tpa_label.setFont(font)
         self.tpa_label.setStyleSheet("background-color:none;")
         self.tpa_label.setAlignment(QtCore.Qt.AlignCenter)
@@ -107,7 +107,7 @@ class Ui_MainWindow(object):
         self.flot_inicial.setGeometry(QtCore.QRect(240, 200, 301, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.flot_inicial.setFont(font)
         self.flot_inicial.setAutoFillBackground(False)
         self.flot_inicial.setStyleSheet("background-color:none;")
@@ -129,7 +129,7 @@ class Ui_MainWindow(object):
         self.data_label.setGeometry(QtCore.QRect(40, 100, 201, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.data_label.setFont(font)
         self.data_label.setStyleSheet("background-color:none;")
         self.data_label.setAlignment(QtCore.Qt.AlignCenter)
@@ -144,7 +144,7 @@ class Ui_MainWindow(object):
         self.hora_label.setGeometry(QtCore.QRect(40, 150, 201, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.hora_label.setFont(font)
         self.hora_label.setStyleSheet("background-color:none;")
         self.hora_label.setAlignment(QtCore.Qt.AlignCenter)
@@ -153,7 +153,7 @@ class Ui_MainWindow(object):
         self.flot_recebido.setGeometry(QtCore.QRect(240, 240, 301, 51))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.flot_recebido.setFont(font)
         self.flot_recebido.setAutoFillBackground(False)
         self.flot_recebido.setStyleSheet("background-color:none;")
@@ -167,7 +167,7 @@ class Ui_MainWindow(object):
         self.data.setGeometry(QtCore.QRect(240, 100, 301, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.data.setFont(font)
         self.data.setAutoFillBackground(False)
         self.data.setStyleSheet("background-color:none;")
@@ -177,7 +177,7 @@ class Ui_MainWindow(object):
         self.confirmar_pagmento.setGeometry(QtCore.QRect(40, 530, 501, 51))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         font.setBold(True)
         font.setItalic(False)
         font.setWeight(75)
@@ -202,7 +202,7 @@ class Ui_MainWindow(object):
         self.flot_label.setGeometry(QtCore.QRect(40, 200, 201, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.flot_label.setFont(font)
         self.flot_label.setStyleSheet("background-color:none;")
         self.flot_label.setAlignment(QtCore.Qt.AlignCenter)
@@ -211,7 +211,7 @@ class Ui_MainWindow(object):
         self.tpa.setGeometry(QtCore.QRect(240, 320, 301, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.tpa.setFont(font)
         self.tpa.setStyleSheet("background-color:none;")
         self.tpa.setText("")
@@ -226,7 +226,7 @@ class Ui_MainWindow(object):
         self.nome_label.setGeometry(QtCore.QRect(40, 20, 201, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.nome_label.setFont(font)
         self.nome_label.setStyleSheet("background-color:none;")
         self.nome_label.setAlignment(QtCore.Qt.AlignCenter)
@@ -235,7 +235,7 @@ class Ui_MainWindow(object):
         self.nome_da_loja.setGeometry(QtCore.QRect(240, 10, 301, 51))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.nome_da_loja.setFont(font)
         self.nome_da_loja.setAutoFillBackground(False)
         self.nome_da_loja.setStyleSheet("background-color:none;")
@@ -251,7 +251,7 @@ class Ui_MainWindow(object):
         self.total_label.setGeometry(QtCore.QRect(40, 350, 201, 41))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.total_label.setFont(font)
         self.total_label.setStyleSheet("background-color:none;")
         self.total_label.setAlignment(QtCore.Qt.AlignCenter)
@@ -260,7 +260,7 @@ class Ui_MainWindow(object):
         self.total_de_vandos.setGeometry(QtCore.QRect(240, 350, 301, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.total_de_vandos.setFont(font)
         self.total_de_vandos.setStyleSheet("background-color:none;\n"
                                            "")
@@ -276,7 +276,7 @@ class Ui_MainWindow(object):
         self.total_de_label.setGeometry(QtCore.QRect(40, 390, 201, 41))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.total_de_label.setFont(font)
         self.total_de_label.setStyleSheet("background-color:none;")
         self.total_de_label.setAlignment(QtCore.Qt.AlignCenter)
@@ -285,7 +285,7 @@ class Ui_MainWindow(object):
         self.valor_label.setGeometry(QtCore.QRect(40, 440, 201, 41))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.valor_label.setFont(font)
         self.valor_label.setStyleSheet("background-color:none;")
         self.valor_label.setAlignment(QtCore.Qt.AlignCenter)
@@ -303,7 +303,7 @@ class Ui_MainWindow(object):
         self.valor.setGeometry(QtCore.QRect(240, 440, 301, 41))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.valor.setFont(font)
         self.valor.setStyleSheet("background-color:none;")
         self.valor.setText("")
@@ -324,7 +324,7 @@ class Ui_MainWindow(object):
         self.balanco_label.setGeometry(QtCore.QRect(40, 480, 201, 41))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.balanco_label.setFont(font)
         self.balanco_label.setStyleSheet("background-color:none;")
         self.balanco_label.setAlignment(QtCore.Qt.AlignCenter)
@@ -333,7 +333,7 @@ class Ui_MainWindow(object):
         self.balanco.setGeometry(QtCore.QRect(240, 480, 301, 41))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.balanco.setFont(font)
         self.balanco.setStyleSheet("background-color:none;")
         self.balanco.setText("")
@@ -348,7 +348,7 @@ class Ui_MainWindow(object):
         self.flot_recebido_label_2.setGeometry(QtCore.QRect(40, 280, 201, 51))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.flot_recebido_label_2.setFont(font)
         self.flot_recebido_label_2.setStyleSheet("background-color:none;")
         self.flot_recebido_label_2.setAlignment(QtCore.Qt.AlignCenter)
@@ -357,7 +357,7 @@ class Ui_MainWindow(object):
         self.flot_devolvido.setGeometry(QtCore.QRect(240, 290, 301, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.flot_devolvido.setFont(font)
         self.flot_devolvido.setAutoFillBackground(False)
         self.flot_devolvido.setStyleSheet("background-color:none;")
@@ -410,6 +410,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         MainWindow.setWindowTitle("Receipt")
+
         self.confirmar_pagmento.clicked.connect(self.confirm_pagamento)
 
         self.nome_da_loja.setText(self.transaction["nome_da_loja"])
@@ -423,7 +424,6 @@ class Ui_MainWindow(object):
         self.flot_devolvido.setText(self.transaction["flot_devolvido"])
         self.flot_devolvido.setAlignment(Qt.AlignCenter)
         self.flot_devolvido.setFont(QFont('Arial', 18))
-
 
         self.data.setText(self.transaction["data"])
 
@@ -504,11 +504,6 @@ class Ui_MainWindow(object):
             self.confirmar_pagmento.setText("CONFIRMER LE PAIEMENT")
             self.flot_recebido_label_2.setText("FLOTTEUR RETOURNÉ")
 
-
-
-
-
-
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
@@ -547,37 +542,36 @@ class Ui_MainWindow(object):
         msg.exec_()
 
     def print_receipt(self):
-        filename = tempfile.mktemp(".txt")
-        receipt = open (filename , "w")
 
-        # with open("receipt.txt", 'w') as receipt:
+        filename = tempfile.mktemp(".txt")
+        receipt = open(filename, "w")
 
 
         if set_language == "PO":
             receipt.write("+----------------+\n|  Premier Bet   |\n+----------------+\n")
             receipt.write(" Nome Da Loja:   \n " + self.nome_da_loja.text() + "\n")
             receipt.write("+----------------+\n")
-            receipt.write(" Nome Do Gerente:\n " + self.nome_do_gerente.text()+ "\n")
+            receipt.write(" Nome Do Gerente:\n " + self.nome_do_gerente.text() + "\n")
             receipt.write("+----------------+\n")
-            receipt.write(" DATA:  " + self.data.text()+ "\n")
+            receipt.write(" DATA:  " + self.data.text() + "\n")
             receipt.write("+----------------+\n")
-            receipt.write(" HORA:   " + self.hora.text()+ "\n")
+            receipt.write(" HORA:   " + self.hora.text() + "\n")
             receipt.write("+----------------+\n")
-            receipt.write(" FLOT INICIAL:\n " + self.flot_inicial.text()+ "KZ\n")
+            receipt.write(" FLOT INICIAL:\n " + self.flot_inicial.text() + "KZ\n")
             receipt.write("+----------------+\n")
-            receipt.write(" FLOT RECEBIDO:\n " + self.flot_recebido.text()+ "KZ\n")
+            receipt.write(" FLOT RECEBIDO:\n " + self.flot_recebido.text() + "KZ\n")
             receipt.write("+----------------+\n")
             receipt.write(" FLOT DEVOLVIDO:\n " + self.flot_devolvido.text() + "KZ\n")
             receipt.write("+----------------+\n")
-            receipt.write(" TPA:\n " + self.tpa.text()+ "KZ\n")
+            receipt.write(" TPA:\n " + self.tpa.text() + "KZ\n")
             receipt.write("+----------------+\n")
-            receipt.write(" TOTAL DE VENDAS:\n " + self.total_de_vandos.text()+ "KZ\n")
+            receipt.write(" TOTAL DE VENDAS:\n " + self.total_de_vandos.text() + "KZ\n")
             receipt.write("+----------------+\n")
-            receipt.write(" TOTAL PAGAMENTOS:\n " + self.total_de_pagamentos.text()+ "KZ\n")
+            receipt.write(" TOTAL PAGAMENTOS:\n " + self.total_de_pagamentos.text() + "KZ\n")
             receipt.write("+----------------+\n")
-            receipt.write(" VALOR LIQUIDO:\n " + self.valor.text()+ "KZ\n")
+            receipt.write(" VALOR LIQUIDO:\n " + self.valor.text() + "KZ\n")
             receipt.write("+----------------+\n")
-            receipt.write(" BALANCO FINAL:\n " + self.balanco.text()+ "KZ\n")
+            receipt.write(" BALANCO FINAL:\n " + self.balanco.text() + "KZ\n")
             receipt.write("+----------------+\n   THANK YOU\n")
         elif set_language == "FR":
             receipt.write("+----------------+\n|  Premier Bet   |\n+----------------+\n")
@@ -632,71 +626,71 @@ class Ui_MainWindow(object):
             receipt.write(" FINAL BALANCE:\n " + self.balanco.text() + "KZ\n")
             receipt.write("+----------------+\n   THANK YOU\n")
 
-
-        # try:
+        try:
             # printing on Windows
-        if platform.system() == "Windows":
+            if platform.system() == "Windows":
 
-            # p = win32print.OpenPrinter ("EPSON TM-T20III Receipt")
-            # p = win32print.OpenPrinter ("HP LaserJet 1020")
+                # p = win32print.OpenPrinter ("EPSON TM-T20III Receipt")
+                # p = win32print.OpenPrinter ("HP LaserJet 1020")
 
+                defaultPrinter = win32print.GetDefaultPrinter()
+                PRINTER_NAME = "EPSON TM-T20III Receipt"
+                #
+                #
+                if defaultPrinter != PRINTER_NAME:
+                    win32print.SetDefaultPrinter(PRINTER_NAME)
 
-            defaultPrinter = win32print.GetDefaultPrinter()
-            PRINTER_NAME = "EPSON TM-T20III Receipt"
+                # for value in info:
 
+                #         f.write (value)
+                #         f.write("\n")
 
-            if defaultPrinter != PRINTER_NAME:
-                win32print.SetDefaultPrinter(PRINTER_NAME)
+                os.startfile(filename, "print")
 
+                # defaultPrinter = win32print.GetDefaultPrinter()
+                # printer_name = "EPSON TM-T20III Receipt"
+                # if defaultPrinter != printer_name:
+                #    win32print.SetDefaultPrinter(printer_name)
+                # p = win32print.OpenPrinter(printer_name)
+                # job = win32print.StartDocPrinter(p, 1, ("test of raw data", None, "RAW"))
+                # win32print.StartPagePrinter(p)
+                # with open(r"receipt.txt") as receipt_print:
+                #     win32print.WritePrinter(p, receipt_print.read())
+                #     win32print.EndPagePrinter(p)
+            else:
+                # printing on Mac or Linux
+                os.system("lpr -P EPSON TM-T20III Receipt receipt.txt")
 
-            # for value in info:
-
-            #         f.write (value)
-            #         f.write("\n")
-
-
-            os.startfile(filename, "print")
-            
-            # defaultPrinter = win32print.GetDefaultPrinter()
-            #printer_name = "EPSON TM-T20III Receipt"
-            #if defaultPrinter != printer_name:
-            #    win32print.SetDefaultPrinter(printer_name)
-            #p = win32print.OpenPrinter(printer_name)
-            # job = win32print.StartDocPrinter(p, 1, ("test of raw data", None, "RAW"))
-            # win32print.StartPagePrinter(p)
-            # with open(r"receipt.txt") as receipt_print:
-            #     win32print.WritePrinter(p, receipt_print.read())
-            #     win32print.EndPagePrinter(p)
-        else:
-            # printing on Mac or Linux
-            os.system("lpr -P EPSON TM-T20III Receipt receipt.txt")
-
-
-        # except Exception as e:
-        #     msg = QMessageBox()
-        #     msg.setWindowTitle("ERROR")
-        #     if set_language == "PO":
-        #         msg.setText("Erro da impressora. Certifique-se de que a impressora esteja conectada!")
-        #     elif set_language == "FR":
-        #         msg.setText("Erreur d'imprimante. Assurez-vous que l'imprimante est connectée !")
-        #     else:
-        #         msg.setText("Printer error. Make sure the printer is connected!")
-        #     msg.setIcon(QMessageBox.Critical)
-        #     msg.exec_()
+            try:
+                receipt_window.hide()
+            except Exception as ignore:
+                print("")
 
 
-# add french
+        except Exception as e:
+            msg = QMessageBox()
+            msg.setWindowTitle("ERROR")
+            if set_language == "PO":
+                msg.setText("Erro da impressora. Certifique-se de que a impressora esteja conectada!")
+            elif set_language == "FR":
+                msg.setText("Erreur d'imprimante. Assurez-vous que l'imprimante est connectée !")
+            else:
+                msg.setText("Printer error. Make sure the printer is connected!")
+            msg.setIcon(QMessageBox.Critical)
+            msg.exec_()
+
+
 
 class Ui_transaction_report(QMainWindow):
-
     global set_language
+
     def __init__(self, store):
 
         super().__init__()
 
         self.gerente = store["gerente_da_loja"]
         self.nome = store["nome_da_loja"]
-        self.fflot_inicial= store["Flot Inicial"]
+        self.fflot_inicial = store["Flot Inicial"]
         self.vvenda_sb = store["Vendas SB"]
         self.ppagamento_sb = store["Pagamentos SB"]
         self.vvendas_solidicon = store["Vendas Solidicon"]
@@ -711,7 +705,7 @@ class Ui_transaction_report(QMainWindow):
         transaction_report.setObjectName("transaction_report")
         transaction_report.resize(1186, 761)
         font = QtGui.QFont()
-        font.setPointSize(9)
+        font.setPointSize(7)
         transaction_report.setFont(font)
         transaction_report.setStyleSheet("background-color: rgb(0, 128, 0);")
         self.centralwidget = QtWidgets.QWidget(transaction_report)
@@ -720,7 +714,7 @@ class Ui_transaction_report(QMainWindow):
         self.label_4.setGeometry(QtCore.QRect(60, 350, 161, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.label_4.setFont(font)
         self.label_4.setStyleSheet("background-color: none;")
         self.label_4.setObjectName("label_4")
@@ -728,7 +722,7 @@ class Ui_transaction_report(QMainWindow):
         self.venda_sb.setGeometry(QtCore.QRect(230, 350, 201, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.venda_sb.setFont(font)
         self.venda_sb.setAutoFillBackground(False)
         self.venda_sb.setStyleSheet("background-color: none;\n"
@@ -739,7 +733,7 @@ class Ui_transaction_report(QMainWindow):
         self.pagamento_sb.setGeometry(QtCore.QRect(230, 390, 201, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.pagamento_sb.setFont(font)
         self.pagamento_sb.setAutoFillBackground(False)
         self.pagamento_sb.setStyleSheet("background-color: none;")
@@ -749,7 +743,7 @@ class Ui_transaction_report(QMainWindow):
         self.label_6.setGeometry(QtCore.QRect(60, 390, 131, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.label_6.setFont(font)
         self.label_6.setStyleSheet("background-color: none;\n"
                                    "")
@@ -763,7 +757,7 @@ class Ui_transaction_report(QMainWindow):
         self.label_7.setGeometry(QtCore.QRect(60, 470, 171, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.label_7.setFont(font)
         self.label_7.setStyleSheet("background-color: none;")
         self.label_7.setObjectName("label_7")
@@ -771,7 +765,7 @@ class Ui_transaction_report(QMainWindow):
         self.vendas_solidicon.setGeometry(QtCore.QRect(230, 430, 201, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.vendas_solidicon.setFont(font)
         self.vendas_solidicon.setAutoFillBackground(False)
         self.vendas_solidicon.setStyleSheet("background-color: none;")
@@ -781,7 +775,7 @@ class Ui_transaction_report(QMainWindow):
         self.label_8.setGeometry(QtCore.QRect(60, 430, 131, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.label_8.setFont(font)
         self.label_8.setStyleSheet("background-color: none;")
         self.label_8.setObjectName("label_8")
@@ -799,7 +793,7 @@ class Ui_transaction_report(QMainWindow):
         self.label_9.setGeometry(QtCore.QRect(60, 550, 131, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         font.setBold(False)
         font.setWeight(50)
         self.label_9.setFont(font)
@@ -809,7 +803,7 @@ class Ui_transaction_report(QMainWindow):
         self.vendas_gb.setGeometry(QtCore.QRect(230, 510, 201, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.vendas_gb.setFont(font)
         self.vendas_gb.setAutoFillBackground(False)
         self.vendas_gb.setStyleSheet("background-color: none;")
@@ -819,7 +813,7 @@ class Ui_transaction_report(QMainWindow):
         self.label_10.setGeometry(QtCore.QRect(60, 510, 131, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.label_10.setFont(font)
         self.label_10.setStyleSheet("background-color: none;")
         self.label_10.setObjectName("label_10")
@@ -827,7 +821,7 @@ class Ui_transaction_report(QMainWindow):
         self.pagamentos_gb.setGeometry(QtCore.QRect(230, 550, 201, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.pagamentos_gb.setFont(font)
         self.pagamentos_gb.setAutoFillBackground(False)
         self.pagamentos_gb.setStyleSheet("background-color: none;")
@@ -880,7 +874,7 @@ class Ui_transaction_report(QMainWindow):
         self.label_15.setGeometry(QtCore.QRect(60, 310, 131, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.label_15.setFont(font)
         self.label_15.setStyleSheet("background-color: none;")
         self.label_15.setObjectName("label_15")
@@ -888,7 +882,7 @@ class Ui_transaction_report(QMainWindow):
         self.flot_inicial.setGeometry(QtCore.QRect(230, 300, 201, 41))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.flot_inicial.setFont(font)
         self.flot_inicial.setStyleSheet("background-color: none;")
         self.flot_inicial.setAlignment(QtCore.Qt.AlignCenter)
@@ -1096,7 +1090,7 @@ class Ui_transaction_report(QMainWindow):
         self.label_12 = QtWidgets.QLabel(self.centralwidget)
         self.label_12.setGeometry(QtCore.QRect(60, 600, 101, 20))
         font = QtGui.QFont()
-        font.setPointSize(11)
+        font.setPointSize(7)
         self.label_12.setFont(font)
         self.label_12.setStyleSheet("background-color: none;")
         self.label_12.setObjectName("label_12")
@@ -1109,7 +1103,7 @@ class Ui_transaction_report(QMainWindow):
         self.label_13 = QtWidgets.QLabel(self.centralwidget)
         self.label_13.setGeometry(QtCore.QRect(60, 640, 111, 20))
         font = QtGui.QFont()
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.label_13.setFont(font)
         self.label_13.setStyleSheet("background-color: none;")
         self.label_13.setObjectName("label_13")
@@ -1122,7 +1116,7 @@ class Ui_transaction_report(QMainWindow):
         self.vendas_ts7 = QtWidgets.QLabel(self.centralwidget)
         self.vendas_ts7.setGeometry(QtCore.QRect(230, 590, 201, 31))
         font = QtGui.QFont()
-        font.setPointSize(9)
+        font.setPointSize(7)
         font.setFamily("Arial")
         self.vendas_ts7.setFont(font)
         self.vendas_ts7.setAutoFillBackground(False)
@@ -1133,7 +1127,7 @@ class Ui_transaction_report(QMainWindow):
         self.pagamentos_ts7.setGeometry(QtCore.QRect(230, 630, 201, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(11)
+        font.setPointSize(7)
         self.pagamentos_ts7.setFont(font)
         self.pagamentos_ts7.setAutoFillBackground(False)
         self.pagamentos_ts7.setStyleSheet("background-color: none;")
@@ -1142,7 +1136,7 @@ class Ui_transaction_report(QMainWindow):
         self.label_14 = QtWidgets.QLabel(self.centralwidget)
         self.label_14.setGeometry(QtCore.QRect(60, 669, 111, 31))
         font = QtGui.QFont()
-        font.setPointSize(9)
+        font.setPointSize(7)
         self.label_14.setFont(font)
         self.label_14.setStyleSheet("background-color: none;")
         self.label_14.setObjectName("label_14")
@@ -1150,7 +1144,7 @@ class Ui_transaction_report(QMainWindow):
         self.total.setGeometry(QtCore.QRect(230, 670, 201, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(11)
+        font.setPointSize(7)
         self.total.setFont(font)
         self.total.setAutoFillBackground(False)
         self.total.setStyleSheet("background-color: none;")
@@ -1159,7 +1153,7 @@ class Ui_transaction_report(QMainWindow):
         self.detalhes = QtWidgets.QLabel(self.centralwidget)
         self.detalhes.setGeometry(QtCore.QRect(40, 260, 391, 41))
         font = QtGui.QFont()
-        font.setPointSize(11)
+        font.setPointSize(7)
         font.setBold(True)
         font.setItalic(False)
         font.setWeight(75)
@@ -1172,7 +1166,7 @@ class Ui_transaction_report(QMainWindow):
         self.confirmar = QtWidgets.QPushButton(self.centralwidget)
         self.confirmar.setGeometry(QtCore.QRect(540, 490, 181, 71))
         font = QtGui.QFont()
-        font.setPointSize(11)
+        font.setPointSize(7)
         font.setBold(True)
         font.setItalic(False)
         font.setWeight(75)
@@ -1184,13 +1178,10 @@ class Ui_transaction_report(QMainWindow):
 
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(11)
+        font.setPointSize(7)
         font.setBold(True)
         font.setItalic(False)
         font.setWeight(75)
-
-
-
 
         self.flot_field = QtWidgets.QSpinBox(self.centralwidget)
         self.flot_field.setGeometry(QtCore.QRect(570, 180, 151, 31))
@@ -1219,6 +1210,8 @@ class Ui_transaction_report(QMainWindow):
         self.flot_label.setStyleSheet("color: rgb(229, 255, 255);\n"
                                       "font:bold;")
         self.flot_label.setObjectName("flot_label")
+
+
         self.tpa_label = QtWidgets.QLabel(self.centralwidget)
         self.tpa_label.setGeometry(QtCore.QRect(520, 240, 41, 31))
         self.tpa_label.setStyleSheet("color: rgb(229, 255, 255);\n"
@@ -1262,7 +1255,6 @@ class Ui_transaction_report(QMainWindow):
         self.label.setScaledContents(True)
         self.label.setObjectName("label")
 
-
         self.english_radiobtn = QtWidgets.QRadioButton(self.centralwidget)
         self.english_radiobtn.setGeometry(QtCore.QRect(920, 700, 99, 20))
         self.english_radiobtn.setStyleSheet("color:white;")
@@ -1277,6 +1269,11 @@ class Ui_transaction_report(QMainWindow):
         self.portuguese_radiobtn.setChecked(True)
         self.portuguese_radiobtn.setObjectName("portuguese_radiobtn")
 
+
+        self.flot_label.setFont(QFont('Arial', 7))
+        self.flot_devolvido_label.setFont(QFont('Arial', 7))
+        self.gerente_da_loja_label.setFont(QFont('Arial', 7))
+        self.nome_da_loja_label.setFont(QFont('Arial', 7))
 
 
         self.graphicsView.raise_()
@@ -1339,6 +1336,9 @@ class Ui_transaction_report(QMainWindow):
 
         transaction_report.setWindowTitle("Transactions Report")
 
+
+
+
         self.zeroButton.clicked.connect(self.zero)
         self.oneButton.clicked.connect(self.one)
         self.twoButton.clicked.connect(self.two)
@@ -1363,9 +1363,6 @@ class Ui_transaction_report(QMainWindow):
         self.vendas_ts7.setText(self.vvendas_ts7)
         self.pagamentos_ts7.setText(self.ppagamentos_ts7)
         self.total.setText(self.ttotal)
-
-
-
 
         self.english_radiobtn.toggled.connect(lambda: self.btnstate(self.english_radiobtn))
         self.portuguese_radiobtn.toggled.connect(lambda: self.btnstate(self.portuguese_radiobtn))
@@ -1416,7 +1413,6 @@ class Ui_transaction_report(QMainWindow):
         self.french_radiobtn.setText(_translate("transaction_report", "French"))
         self.flot_devolvido_label.setText(_translate("transaction_report", " FLOT\n"
                                                                            " DEVOLVIDO"))
-
 
         self.flot_label.setText(_translate("transaction_report", " FLOT\nRECEBIDO"))
         self.tpa_label.setText(_translate("transaction_report", "TPA"))
@@ -1520,6 +1516,7 @@ class Ui_transaction_report(QMainWindow):
     def confirm(self):
 
         global row_num
+        global receipt_window
 
         if str_to_float(self.flot_field.text()) == float(0) and str_to_float(self.tpa_field.text()) == float(0) \
                 and str_to_float(self.flot_devolvido.text()) == float(0):
@@ -1540,7 +1537,8 @@ class Ui_transaction_report(QMainWindow):
             total_vendas = str_to_float(str(self.vendas_ts7.text())[:len(str(self.vendas_ts7.text())) - 2]) \
                            + str_to_float(str(self.vendas_gb.text())[:len(str(self.vendas_gb.text())) - 2]) \
                            + str_to_float(str(self.venda_sb.text())[:len(str(self.venda_sb.text())) - 2]) \
-                           + str_to_float(str(self.vendas_solidicon.text())[:len(str(self.vendas_solidicon.text())) - 2])
+                           + str_to_float(
+                str(self.vendas_solidicon.text())[:len(str(self.vendas_solidicon.text())) - 2])
 
             total_pagamentos = str_to_float(self.pagamentos_ts7.text()[:len(self.pagamentos_ts7.text()) - 2]) \
                                + str_to_float(self.pagamentos_gb.text()[:len(self.pagamentos_gb.text()) - 2]) \
@@ -1556,22 +1554,22 @@ class Ui_transaction_report(QMainWindow):
             temp_date = self.date_field.dateTime().toPyDateTime()
             temp_flot_inicial = str_to_float(self.flot_inicial.text()[:len(self.flot_inicial.text()) - 2])
             temp_flot_inicial = temp_flot_inicial + float(self.flot_field.value()) - float(self.flot_devolvido.value())
-            premier.update(f'B{row_num + 1}:R{row_num + 1}', [
+            premier.update(f'C{row_num + 1}:S{row_num + 1}', [
                 [
-                 f"{temp_date.month}/{temp_date.day}/{temp_date.year}",
-                 str(temp_flot_inicial),
-                 self.venda_sb.text()[:len(self.venda_sb.text()) - 2],
-                 self.pagamento_sb.text()[:len(self.pagamento_sb.text()) - 2],
-                 self.vendas_solidicon.text()[:len(self.vendas_solidicon.text()) - 2],
-                 self.pagamentos_solidicon.text()[:len(self.pagamentos_solidicon.text()) - 2],
-                 self.vendas_gb.text()[:len(self.vendas_gb.text()) - 2],
-                 self.pagamentos_gb.text()[:len(self.pagamentos_gb.text()) - 2],
-                 self.vendas_ts7.text()[:len(self.vendas_ts7.text()) - 2],
-                 self.pagamentos_ts7.text()[:len(self.pagamentos_ts7.text()) - 2],
-                 self.flot_field.value(),
-                 self.flot_devolvido.text()[:len(self.flot_devolvido.text()) - 2],
-                 self.tpa_field.value(),
-                 total_vendas, total_pagamentos, valor_liquido, balanco_final]
+                    f"{temp_date.month}/{temp_date.day}/{temp_date.year}",
+                    str(temp_flot_inicial),
+                    self.venda_sb.text()[:len(self.venda_sb.text()) - 2],
+                    self.pagamento_sb.text()[:len(self.pagamento_sb.text()) - 2],
+                    self.vendas_solidicon.text()[:len(self.vendas_solidicon.text()) - 2],
+                    self.pagamentos_solidicon.text()[:len(self.pagamentos_solidicon.text()) - 2],
+                    self.vendas_gb.text()[:len(self.vendas_gb.text()) - 2],
+                    self.pagamentos_gb.text()[:len(self.pagamentos_gb.text()) - 2],
+                    self.vendas_ts7.text()[:len(self.vendas_ts7.text()) - 2],
+                    self.pagamentos_ts7.text()[:len(self.pagamentos_ts7.text()) - 2],
+                    self.flot_field.value(),
+                    self.flot_devolvido.text()[:len(self.flot_devolvido.text()) - 2],
+                    self.tpa_field.value(),
+                    total_vendas, total_pagamentos, valor_liquido, balanco_final]
             ])
 
             add_transaction_shop([self.nome_field.toPlainText(),
@@ -1595,12 +1593,11 @@ class Ui_transaction_report(QMainWindow):
                            "balanco_final": balanco_final}
 
             # transaction_report.hide()
-            self.window = QtWidgets.QMainWindow()
-            self.ui = Ui_MainWindow(transaction)
-            self.ui.setupUi(self.window)
-            self.window.show()
-
-
+            self.receipt_window = QtWidgets.QMainWindow()
+            self.uii = Ui_MainWindow(transaction)
+            self.uii.setupUi(self.receipt_window)
+            self.receipt_window.show()
+            receipt_window = self.receipt_window
 
     def zero(self):
         key = "0"
@@ -1679,6 +1676,7 @@ class Ui_transaction_report(QMainWindow):
 
         keyboard.release(key)
         keyboard.release(Key.ctrl)
+
 
 class Ui_UserLogin(object):
     def setupUi(self, UserLogin):
@@ -1759,7 +1757,6 @@ class Ui_UserLogin(object):
         self.label.setStyleSheet("background: transparent;")
         self.login_button.clicked.connect(self.log_in)
 
-
     def retranslateUi(self, UserLogin):
         _translate = QtCore.QCoreApplication.translate
         UserLogin.setWindowTitle(_translate("UserLogin", "UserLogin"))
@@ -1809,8 +1806,6 @@ class Ui_UserLogin(object):
                                     str_to_float(record["Pagementos Solidicon"])
                         manager_obj["total"] = (str(round(temp_sum, 2)) + "KZ")
 
-
-
                 if isAuthenticated:
                     self.window = QtWidgets.QMainWindow()
                     self.ui = Ui_transaction_report(manager_obj)
@@ -1838,5 +1833,3 @@ if __name__ == "__main__":
     # ui.setupUi(transaction_report)
     # transaction_report.show()
     sys.exit(app.exec_())
-
-
