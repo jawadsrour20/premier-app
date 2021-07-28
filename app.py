@@ -14,13 +14,13 @@ import copy
 import os
 import platform
 from tabulate import tabulate
-# import win32api
-# import win32print
-# import os
-# import time
-# import shutil
-# import pandas as pd
-# import win32com.client as win32
+import win32api
+import win32print
+import os
+import time
+import shutil
+import pandas as pd
+import win32com.client as win32
 keyboard = Controller()
 
 row_num = 1
