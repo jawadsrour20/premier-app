@@ -1218,6 +1218,7 @@ class Ui_transaction_report(QMainWindow):
                                                  "font:bold;")
         self.flot_field.setMaximum(999999999)
         self.tpa_field.setMaximum(999999999)
+        self.flot_devolvido.setMaximum(999999999)
         self.gerente_da_loja_label.setObjectName("gerente_da_loja_label")
         self.date_field = QtWidgets.QDateEdit(self.centralwidget)
         self.date_field.setGeometry(QtCore.QRect(40, 70, 181, 31))
@@ -1532,7 +1533,7 @@ class Ui_transaction_report(QMainWindow):
 
             temp_date = self.date_field.dateTime().toPyDateTime()
             temp_flot_inicial = str_to_float(self.flot_inicial.text()[:len(self.flot_inicial.text()) - 2])
-            temp_flot_inicial = temp_flot_inicial +  float(self.flot_field.value()) - float(self.flot_devolvido.value())
+            temp_flot_inicial = temp_flot_inicial + float(self.flot_field.value()) - float(self.flot_devolvido.value())
             premier.update(f'B{row_num + 1}:R{row_num + 1}', [
                 [
                  f"{temp_date.month}/{temp_date.day}/{temp_date.year}",
@@ -1550,6 +1551,16 @@ class Ui_transaction_report(QMainWindow):
                  self.tpa_field.value(),
                  total_vendas, total_pagamentos, valor_liquido, balanco_final]
             ])
+
+            add_transaction_shop([self.nome_field.toPlainText(),
+                                  self.gerente_text_field.toPlainText(),
+                                  f"{temp_date.month}/{temp_date.day}/{temp_date.year}",
+                                  datetime.now().strftime("%H:%M:%S"),
+                                  temp_flot_inicial,
+                                  self.flot_field.text(),
+                                  self.flot_devolvido.text(),
+                                  self.tpa_field.text(),
+                                  total_vendas, total_pagamentos, valor_liquido, balanco_final])
 
             transaction = {"nome_da_loja": self.nome_field.toPlainText(),
                            "nome_do_gerente": self.gerente_text_field.toPlainText(),

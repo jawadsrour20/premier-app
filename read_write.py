@@ -14,6 +14,8 @@ trans_admin = excel.get_worksheet(3)
 summary = excel.get_worksheet(4)
 premier = excel.get_worksheet(6)
 managers = excel.get_worksheet(7)
+transactions_shop = excel.get_worksheet(8)
+
 
 def get_data():
     return sheet.get_all_records()
@@ -34,8 +36,14 @@ def summary_data():
 def get_premier_data():
     return premier.get_all_records()
 
+
 def get_users():
     return managers.get_all_records()
+
+
+def add_transaction_shop(insert_row):
+    transactions_shop.append_row(insert_row)
+
 
 def insert_data(insertRow):
     trans.append_row(insertRow)
@@ -47,7 +55,5 @@ def insert_data_summary(insertRow):
 
 def insert_data_admin(insertRow):
     trans_admin.append_row(insertRow)
-
-
 
 # print(insert_data(["12",234]))
