@@ -106,7 +106,7 @@
      <rect>
       <x>60</x>
       <y>390</y>
-      <width>131</width>
+      <width>181</width>
       <height>31</height>
      </rect>
     </property>
@@ -143,7 +143,7 @@
      <rect>
       <x>60</x>
       <y>470</y>
-      <width>171</width>
+      <width>181</width>
       <height>31</height>
      </rect>
     </property>
@@ -193,7 +193,7 @@
      <rect>
       <x>60</x>
       <y>430</y>
-      <width>131</width>
+      <width>181</width>
       <height>31</height>
      </rect>
     </property>
@@ -343,7 +343,7 @@
    <widget class="Line" name="line_5">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>230</x>
       <y>300</y>
       <width>20</width>
       <height>361</height>
@@ -841,7 +841,7 @@ color: black;</string>
      <rect>
       <x>60</x>
       <y>600</y>
-      <width>101</width>
+      <width>171</width>
       <height>20</height>
      </rect>
     </property>
@@ -878,7 +878,7 @@ color: black;</string>
      <rect>
       <x>60</x>
       <y>640</y>
-      <width>111</width>
+      <width>171</width>
       <height>20</height>
      </rect>
     </property>
@@ -1103,7 +1103,7 @@ background-color: #696969;</string>
      <rect>
       <x>480</x>
       <y>180</y>
-      <width>71</width>
+      <width>91</width>
       <height>31</height>
      </rect>
     </property>
@@ -1138,7 +1138,7 @@ font:bold;</string>
      <rect>
       <x>40</x>
       <y>110</y>
-      <width>101</width>
+      <width>191</width>
       <height>21</height>
      </rect>
     </property>
@@ -1176,7 +1176,7 @@ p, li { white-space: pre-wrap; }
      <rect>
       <x>40</x>
       <y>180</y>
-      <width>141</width>
+      <width>191</width>
       <height>21</height>
      </rect>
     </property>
@@ -1312,7 +1312,7 @@ p, li { white-space: pre-wrap; }
      <rect>
       <x>480</x>
       <y>140</y>
-      <width>81</width>
+      <width>91</width>
       <height>31</height>
      </rect>
     </property>
